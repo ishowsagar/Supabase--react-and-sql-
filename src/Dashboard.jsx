@@ -35,6 +35,15 @@ export default function Dashboard() {
   }
 
   // todo: Chart handeling
+  // ! Transform Supabase data into chart-compatible format that we want as primary for name and secondary for value
+  const chartData = [
+    {
+      data: metrics.map((metric) => ({
+        primary: metric.name, // Map name field to primary (X-axis)
+        secondary: metric.sum, // Map value field to secondary (Y-axis)
+      })),
+    },
+  ];
   const primaryAxis = {
     getValue: (d) => d.primary, // Extract category names for X-axis
     scaleType: "band", // Use band scale for categorical data (bar spacing)
