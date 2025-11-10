@@ -1,6 +1,7 @@
 import supabase from "../supabase-client";
 import { useEffect, useState } from "react";
 import { Chart } from "react-charts";
+import Form from "./Form";
 
 export default function Dashboard() {
   // Fetch metrics on component first mount
@@ -112,6 +113,7 @@ export default function Dashboard() {
           />
         </div>
       </div>
+      <Form metrics={metrics} />
     </div>
   );
 }
