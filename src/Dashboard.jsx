@@ -8,7 +8,29 @@ export default function Dashboard() {
   const [metrics, setMetrics] = useState([]);
 
   useEffect(() => {
-    fetchMetrics();
+    fetchMetrics(); // Initial data fetch on mount
+
+    // ! Set up realtime subscription for live database updates
+    const channel = supabase
+      .channel("deal-changes") // Create a live connection channel
+      .on(
+        "postgres_changes", // Listen for database changes
+        {
+          event: "UPDATE,INSERT,DELETE", // Track all modification events
+          schema: "public", // Target public schema
+          table: "sales_deals", // Watch sales_deals table
+        },
+        (payload) => {
+          fetchMetrics(); // Refetch data when DB changes
+          console.log("Database change detected:", payload); // Log change details
+        }
+      )
+      .subscribe(); // Start listening for live updates
+
+    // Clean up subscription on component unmount
+    return () => {
+      supabase.removeChannel(channel); // Close connection to prevent memory leaks
+    };
   }, []);
 
   async function fetchMetrics() {

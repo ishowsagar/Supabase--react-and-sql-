@@ -54,3 +54,38 @@ try {
 ```
 
 - Fixed syntax error: removed extra `}` braces and corrected variable name from `response` to `data`
+
+- Transformed metrics data for chart visualization
+
+```javascript
+const chartData = [
+  {
+    data: metrics.map((metric) => ({
+      primary: metric.name, // X-axis categories
+      secondary: metric.value, // Y-axis values
+    })),
+  },
+];
+```
+
+_Note: Converts Supabase response into react-charts format_
+
+- Configured chart axes with inline comments
+
+```javascript
+const primaryAxis = {
+  getValue: (d) => d.primary, // Extract category names
+  scaleType: "band", // Bar spacing
+  padding: 0.2, // 20% spacing between bars
+  position: "bottom",
+};
+
+const secondaryAxes = [
+  {
+    getValue: (d) => d.secondary, // Extract numeric values
+    scaleType: "linear", // Continuous scale
+    min: 0,
+    max: y_max(), // Dynamic max with buffer
+  },
+];
+```
