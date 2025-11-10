@@ -1,0 +1,18 @@
+# Netlify configuration for Vite + React + Supabase project
+
+[build]
+  # Command to run when building the site
+  command = "npm run build"
+  
+  # Directory to deploy (Vite outputs to dist/ by default)
+  publish = "dist"
+
+# Environment variables (set these in Netlify UI: Site settings → Environment variables)
+# VITE_SUPABASE_URL = "your-supabase-url"
+# VITE_SUPABASE_KEY = "your-supabase-anon-key"
+
+# Redirect all requests to index.html for client-side routing (SPA)
+[[redirects]]
+  from = "/*"
+  to = "/index.html"
+  status = 200
